@@ -19,10 +19,10 @@ class Factory:
 
     def create_material_instance(
             self, zaiko_hinban:str, qty:float, df_ps:pd.DataFrame, 
-            dic_parent_num:dict[str, int],
-            dic_hinban_tani:dict[str, str],
-            dic_gs_hinban:dict[str, str],
-            dic_sekiyurui:dict[str, list[str]])->Optional[InterfaceMaterial]:
+            dic_parent_num:"dict[str, int]",
+            dic_hinban_tani:"dict[str, str]",
+            dic_gs_hinban:"dict[str, str]",
+            dic_sekiyurui:"dict[str, list[str]]")->Optional[InterfaceMaterial]:
         """
         親品番が存在する原料(GT, GTS, GS, 製品も)のインスタンスを生成する
         args:

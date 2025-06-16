@@ -14,10 +14,10 @@ class MaterialExistsInParent(InterfaceMaterial):
     を再帰的い作る。
     """
     def __init__(self, hinban:str, qty: float, tani: str,
-                 df_ps:pd.DataFrame, dic_parent_num:dict[str, int],
-                 dic_hinban_tani:dict[str, str],
-                 dic_gs_hinban:dict[str, str],
-                 dic_sekiyurui:dict[str, list[str]])-> None:
+                 df_ps:pd.DataFrame, dic_parent_num:"dict[str, int]",
+                 dic_hinban_tani:"dict[str, str]",
+                 dic_gs_hinban:"dict[str, str]",
+                 dic_sekiyurui:"dict[str, list[str]]")-> None:
         """
         渡ってきた品番がG-などで親品番に存在しなければ、initの中で
         MaterialNotExistsInParentクラスのインスタンスを作って終了
@@ -146,7 +146,8 @@ class MaterialExistsInParent(InterfaceMaterial):
             material.show_me(zaiko_hinban)
 
     def calc_multiple(self, zaiko_hinban:str, 
-                      dic_zaiko_hinban_multiple:dict[str,float])-> None:
+                      dic_zaiko_hinban_multiple:"dict[str,list[float]]",
+                      is_a: bool)-> None:
         for material in self.__materials:
-            material.calc_multiple(zaiko_hinban, dic_zaiko_hinban_multiple)
+            material.calc_multiple(zaiko_hinban, dic_zaiko_hinban_multiple, is_a)
 

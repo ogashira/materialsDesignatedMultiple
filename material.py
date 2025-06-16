@@ -5,10 +5,10 @@ from material_exists_in_parent import MaterialExistsInParent
 class Material(InterfaceMaterial):
 
     def __init__(self, zaiko_hinban:str, qty: float, tani: str,
-                 df_ps:pd.DataFrame, dic_parent_num:dict[str, int], 
-                 dic_hinban_tani:dict[str, str], 
-                 dic_gs_hinban:dict[str, str],
-                 dic_sekiyurui:dict[str, list[str]])-> None:
+                 df_ps:pd.DataFrame, dic_parent_num:"dict[str, int]", 
+                 dic_hinban_tani:"dict[str, str]", 
+                 dic_gs_hinban:"dict[str, str]",
+                 dic_sekiyurui:"dict[str, list[str]]")-> None:
 
         self.zaiko_hinban = zaiko_hinban
         self.__material:InterfaceMaterial = (
@@ -29,7 +29,11 @@ class Material(InterfaceMaterial):
 
 
     def calc_multiple(self, zaiko_hinban:str, 
-                      dic_zaiko_hinban_multiple:dict[str,float]) -> None:
+                      dic_zaiko_hinban_multiple:"dict[str,list[float]]",
+                      is_a: bool) -> None:
         if zaiko_hinban == self.zaiko_hinban:
-            self.__material.calc_multiple(zaiko_hinban, dic_zaiko_hinban_multiple)
-       # print('>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>')
+            self.__material.calc_multiple(zaiko_hinban, dic_zaiko_hinban_multiple,
+                                          is_a)
+
+        if is_a:
+            print('*************************************************************************************************************')

@@ -45,12 +45,16 @@ class MaterialNotExistsInParent(InterfaceMaterial):
         print(f'{zaiko_hinban} => {self.__parent_hinban} : {self.__hinban} : {self.__qty}')
 
     def calc_multiple(self, zaiko_hinban:str, 
-                      dic_zaiko_hinban_multiple:dict[str, float])->None:
+                      dic_zaiko_hinban_multiple:"dict[str, list[float]]",
+                      is_a: bool)->None:
+        tmp:"list[float]" = []
         if zaiko_hinban not in dic_zaiko_hinban_multiple:
-            dic_zaiko_hinban_multiple[zaiko_hinban] = self.__multiple 
+            tmp = [self.__qty, self.__multiple]
+            dic_zaiko_hinban_multiple[zaiko_hinban] = tmp
         else:
-            dic_zaiko_hinban_multiple[zaiko_hinban] += self.__multiple 
+            dic_zaiko_hinban_multiple[zaiko_hinban][0] += self.__qty 
+            dic_zaiko_hinban_multiple[zaiko_hinban][1] += self.__multiple
 
-
-        #print(f'{zaiko_hinban} => {self.__parent_hinban} : {self.__hinban} : {self.__multiple}')
+        if is_a:
+            print(f'{zaiko_hinban:<20} => {self.__parent_hinban:<20} : {self.__hinban:<20} : 在庫量:{self.__qty:8.2f} Kg : 指定数倍:{self.__multiple:8.5f}')
 

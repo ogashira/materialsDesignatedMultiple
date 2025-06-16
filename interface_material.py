@@ -19,7 +19,9 @@ class InterfaceMaterial(ABC):
         """
 
     @abstractmethod
-    def calc_multiple(self, zaiko_hinban:str, dic_zaiko_hinban_multiple:dict[str, float])->None:
+    def calc_multiple(self, zaiko_hinban:str, 
+                      dic_zaiko_hinban_multiple:"dict[str, list[float]]",
+                      is_a: bool)->None:
         """
         抽象メソッド
         """

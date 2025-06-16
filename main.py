@@ -1,23 +1,15 @@
-import pandas as pd
+import sys
 from sql_query import *
 from program_flow import *
 
 def main()->None:
 
-    SIME_DAY = input('締め日を入力してください (例: 20250930) \n : ')
-    TAX_RATE = '10'
+    is_a:bool = False
+    if sys.argv[1] == '-a':
+        is_a = True
 
-    try:
-        date_SIME_DAY:datetime.date = datetime.datetime.strptime(SIME_DAY, '%Y%m%d')
-    except ValueError:
-        print('年月日が不正です。処理を中止します。')
-        sys.exit()
-
-
-    program_flow:object = ProgramFlow(SIME_DAY, TAX_RATE)
-    program_flow.start()
-
-
+    program_flow:object = ProgramFlow()
+    program_flow.start(is_a)
 
 
 if __name__ == '__main__':

@@ -22,9 +22,9 @@ sql_hinban:SqlMHINCD = SqlMHINCD()
 df_hinban:pd.DataFrame = sql_hinban.fetch_sqldata()
 
 create_object:CreateObject = CreateObject()
-dic_gs_hinban:dict[str,str] = create_object.create_dic_gs_hinban2(df_hinban)
-dic_parent_num:dict[str,int] = create_object.create_dic_parent_num(df_ps)
-dic_hinban_tani:dict[str,str] = create_object.create_dic_hinban_tani(df_hinban)
+dic_gs_hinban:"dict[str,str]" = create_object.create_dic_gs_hinban2(df_hinban)
+dic_parent_num:"dict[str,int]" = create_object.create_dic_parent_num(df_ps)
+dic_hinban_tani:"dict[str,str]" = create_object.create_dic_hinban_tani(df_hinban)
 
 
 os_name:str = platform.system()
@@ -40,18 +40,18 @@ with open(path, encoding='cp932') as f:
 
 # dic_sekiyurui = { 'G-TOL' : [ '1石', '0.860'], .....}
 # G- のみの辞書
-dic_sekiyurui:dict[str,list[str]] = {}
+dic_sekiyurui:"dict[str,list[str]]" = {}
 for line in l:
     if not line[0].startswith('G-'):
         continue
-    tmp:list[str] = []
+    tmp:"list[str]" = []
     tmp.append(line[4])
     tmp.append(line[5])
     dic_sekiyurui[line[0]] = tmp
 
 
 
-materials:list[InterfaceMaterial] = []
+materials:"list[InterfaceMaterial]" = []
 factory:Factory = Factory(df_zaiko)
 for i in range(len(df_zaiko)):
     zaiko_hinban:str = df_zaiko.iloc[i,:]['ZaiHinCD']
@@ -63,7 +63,7 @@ for i in range(len(df_zaiko)):
             )
     materials.append(material)
 
-dic_zaiko_hinban_multiple:dict[str, float] = {}
+dic_zaiko_hinban_multiple:"dict[str, float]" = {}
 for i in range(len(df_zaiko)):
     zaiko_hinban = df_zaiko.iloc[i,:]['ZaiHinCD']
     #materials[i].show_me(zaiko_hinban)
