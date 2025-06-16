@@ -1,9 +1,14 @@
+"""
+dictionaryなどのオブジェクトを作るクラス
+"""
 import pandas as pd
 from factory import *
-from sql_query import SqlBZAIKO, SqlMHINCD, SqlMPSMST
 
 
 class CreateObject:
+    """
+    dictionaryなどのオブジェクトを作るクラス
+    """
 
     def create_dic_gs_hinban(self, df:pd.DataFrame)-> dict:
         """
@@ -44,14 +49,24 @@ class CreateObject:
                                                      gs_num_code['gs_to_hinban']))
 
         return dic
+    
+    def create_dic_gs_hinban2(self, df:pd.DataFrame)-> dict:
 
-    def create_dic_oya_num(self, df:pd.DataFrame)-> dict:
+        dic:dict[str, str] = {}
+        for i in range(len(df)):
+            if df.iloc[i,:]['HinFree10'] == '' or df.iloc[i,:]['HinFree10'] == ' ':
+                continue
+            dic[df.iloc[i,:]['HinFree10']] = df.iloc[i,:]['HinHinCD']
+
+        return dic
+
+    def create_dic_parent_num(self, df:pd.DataFrame)-> dict:
         """
         psマスタデータフレームから{親品番:number}の辞書を作る。
         args:
             df (pd.DataFrame) : psマスタのデータフレーム
         return:
-            dic_oya_num (dict) : {親品番:number}の辞書
+            dic_parent_num (dict) : {親品番:number}の辞書
         """
 
         dic:dict[str, int] = {}

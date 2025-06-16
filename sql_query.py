@@ -1,3 +1,6 @@
+"""
+SqlServerからfetchするデータのSqｌ文
+"""
 import warnings
 import pandas as pd
 from dateutil.relativedelta import relativedelta
@@ -5,9 +8,12 @@ from sql_server import SqlServer
 
 
 class SqlBZAIKO:
+    """
+    在庫データ取得
+    """
 
     def __init__(self)->None:
-        pass 
+        pass
 
     def fetch_sqldata(self)->pd.DataFrame:
         warnings.filterwarnings("ignore", category=UserWarning)
@@ -27,6 +33,9 @@ class SqlBZAIKO:
 
 
 class SqlMPSMST:
+    """
+    ＰＳマスタ取得
+    """
    
     def __init__(self)->None:
         pass
@@ -46,6 +55,9 @@ class SqlMPSMST:
 
 
 class SqlMHINCD:
+    """
+    品番マスタ取得
+    """
    
     def __init__(self)->None:
         pass
