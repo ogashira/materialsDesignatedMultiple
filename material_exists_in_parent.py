@@ -18,14 +18,6 @@ class MaterialExistsInParent(InterfaceMaterial):
                  dic_hinban_tani:"dict[str, str]",
                  dic_gs_hinban:"dict[str, str]",
                  dic_sekiyurui:"dict[str, list[str]]")-> None:
-        """
-        渡ってきた品番がG-などで親品番に存在しなければ、initの中で
-        MaterialNotExistsInParentクラスのインスタンスを作って終了
-        """
-        self.__hinban = hinban
-        if hinban.startswith('GS-'):
-            if hinban in dic_gs_hinban:
-                self.__hinban = dic_gs_hinban[hinban]
         self.__qty = qty
         if tani == 'G':
             self.__qty = qty / 1000
@@ -34,11 +26,43 @@ class MaterialExistsInParent(InterfaceMaterial):
         self.__dic_hinban_tani = dic_hinban_tani
         self.__dic_gs_hinban = dic_gs_hinban
         self.__dic_sekiyurui = dic_sekiyurui
+        """
+        渡ってきた品番がG-などで親品番に存在しなければ、initの中で
+        MaterialNotExistsInParentクラスのインスタンスを作って終了
+        """
+        # 親品番に入っていなかったら-R-EXや-EXを外してみる。
+        self.__hinban = hinban
+        s_hinban:str = '' # dic_gs_hinbanから求めたS#-の品番
+        if hinban.startswith('GS-'):
+            if hinban in dic_gs_hinban:
+                s_hinban = dic_gs_hinban[hinban]
+            # もとのGS品番のGS-の部分とS1-,S11-部分を入れ替える
+                s_cnt:int = s_hinban.find('-')
+                gs_cnt:int = hinban.find('-')
+                self.__hinban = s_hinban[:s_cnt + 1] + hinban[gs_cnt + 1 :]
+            # -EXまでにしてその後ろを削除
+            if not self.is_exists_in_parents(self.__hinban):
+                cnt:int = s_hinban.find('-EX')
+                if cnt > 0:
+                    self.__hinban = s_hinban[:cnt+3]
+            # -R-EXから後ろを削除
+            if not self.is_exists_in_parents(self.__hinban):
+                cnt:int = self.__hinban.find('-R-EX')
+                if cnt > 0:
+                    self.__hinban = self.__hinban[:cnt]
+            # -EXから後ろを削除
+            if not self.is_exists_in_parents(self.__hinban):
+                cnt:int = self.__hinban.find('-EX')
+                if cnt > 0:
+                    self.__hinban = self.__hinban[:cnt]
+
 
         self.__materials:list[InterfaceMaterial] = []
         self.__df_parent:pd.DataFrame = (
             self.__df_ps.loc[self.__df_ps['PsmHinCDO']== self.__hinban,:])
-        # G-など、親品番が存在しなかったら、Gのインスタンスを作って終了
+
+
+        # G-など、親品番が存在しなかったら、NotExistsのインスタンスを作って終了
         self.__sekiyurui:str = ''
         self.__sg:float = 0.0
         if not len(self.__df_parent):
@@ -74,7 +98,7 @@ class MaterialExistsInParent(InterfaceMaterial):
 
     def sum_qty(self)-> float:
         """
-        Gt-品番(親品番)のトータル重量を求める
+        Gt-品番など(親品番)のトータル重量を求める
         """
         for i in range(len(self.__df_parent)):
             child:str = self.__df_parent.iloc[i,:]['PsmHinCDK']

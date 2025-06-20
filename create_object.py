@@ -56,7 +56,7 @@ class CreateObject:
         for i in range(len(df)):
             if df.iloc[i,:]['HinFree10'] == '' or df.iloc[i,:]['HinFree10'] == ' ':
                 continue
-            dic[df.iloc[i,:]['HinFree10']] = df.iloc[i,:]['HinHinCD']
+            dic[df.iloc[i,:]['HinFree10']] = df.iloc[i, :]['HinHinCD']
 
         return dic
 
