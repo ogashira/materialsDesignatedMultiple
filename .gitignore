@@ -10,4 +10,4 @@ __pycache__
 *.md
 *.jpg
 *.pdf
-./specification/
+specification/
